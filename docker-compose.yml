@@ -1,0 +1,16 @@
+version: "3.5"
+
+services:
+    django_service:
+        restart: always
+        build:
+          context: .
+          dockerfile: Dockerfile
+        command: "gunicorn --chdir config --bind :8080 config.wsgi:application"
+        env_file:
+          - config/settings/.env
+        volumes:
+          - .:/workspace
+        ports:
+          - 8080:8080
+        network_mode: "host"
